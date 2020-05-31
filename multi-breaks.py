@@ -12,9 +12,10 @@ LOG_FILE = "multi-breaks.log"
 
 INTERVAL_MENU = OrderedDict(
     [
-        ("Breath / 5 minutes", (5, "Mindful Breathing")),
         ("20/20/20 eyesight / 20 minutes", (20, "20/20/20")),
+        ("Breathe / 45 minutes", (45, "Mindful Breathing")),
         ("Stand-up / 1 hour", (60, "Stand-up and Walk")),
+        ("Water / 2 hour", (120, "Drink Water")),
     ]
 )
 
