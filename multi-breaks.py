@@ -7,7 +7,13 @@ from collections import OrderedDict
 
 import rumps
 from AppKit import NSAttributedString
-from Cocoa import (NSFont, NSFontAttributeName, NSColor, NSForegroundColorAttributeName, NSBackgroundColorAttributeName)
+from Cocoa import (
+    NSFont,
+    NSFontAttributeName,
+    NSColor,
+    NSForegroundColorAttributeName,
+    NSBackgroundColorAttributeName,
+)
 from PyObjCTools.Conversion import propertyListFromPythonCollection
 
 CONFIG_FILE = "multi-breaks.ini"
@@ -84,15 +90,19 @@ class MultiBreaksApp(rumps.App):
                 {
                     NSForegroundColorAttributeName: fg_color,
                     NSBackgroundColorAttributeName: bg_color,
-                    NSFontAttributeName: font
+                    NSFontAttributeName: font,
                 },
-                conversionHelper=lambda x: x
+                conversionHelper=lambda x: x,
             )
-            string = NSAttributedString.alloc().initWithString_attributes_(' ' + title, attributes)
+            string = NSAttributedString.alloc().initWithString_attributes_(
+                " " + title, attributes
+            )
             self._nsapp.nsstatusitem.setAttributedTitle_(string)
 
     def calibrated_color(self, red, green, blue, alpha=1):
-        return NSColor.colorWithCalibratedRed_green_blue_alpha_(red / 255, green / 255, blue / 255, alpha)
+        return NSColor.colorWithCalibratedRed_green_blue_alpha_(
+            red / 255, green / 255, blue / 255, alpha
+        )
 
     def setup_initial_timers(self):
         for title, value in INTERVAL_MENU.items():
