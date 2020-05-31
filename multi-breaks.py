@@ -6,6 +6,9 @@ import os.path
 from collections import OrderedDict
 
 import rumps
+from AppKit import NSAttributedString
+from Cocoa import (NSFont, NSFontAttributeName, NSColor, NSForegroundColorAttributeName, NSBackgroundColorAttributeName)
+from PyObjCTools.Conversion import propertyListFromPythonCollection
 
 CONFIG_FILE = "multi-breaks.ini"
 LOG_FILE = "multi-breaks.log"
@@ -34,6 +37,7 @@ class MultiBreaksApp(rumps.App):
         )
         self.timers = {}
         self.silent = False
+        self.setup_initial_timers()
         logging.info("start (program init)")
 
     @rumps.clicked("Quit")
@@ -52,23 +56,48 @@ class MultiBreaksApp(rumps.App):
         if self.silent:
             logging.info("Silent model. returning")
             return
-
         for timer_key, timer_val in self.timers.items():
             timer_start, timer_interval, timer_message = timer_val
             timer_interval_in_seconds = timer_interval * 60
             delta_seconds_from_start = (time_now - timer_start).total_seconds()
             if delta_seconds_from_start >= timer_interval_in_seconds:
-                self.title = timer_message
-                logging.info(
-                    f"Notifying {timer_message} every {timer_interval} starting at {timer_start}"
-                )
                 self.timers[timer_key] = (
                     dt.datetime.now(),
                     timer_interval,
                     timer_message,
                 )
+                self.set_title(timer_message)
             else:
                 self.title = ""
+
+    def set_title(self, title):
+        self.title = title
+
+        if title is not None:
+            # This is hacky, but works
+            # https://github.com/jaredks/rumps/issues/30
+            fg_color = NSColor.systemOrangeColor()
+            bg_color = NSColor.darkGrayColor()
+
+            font = NSFont.menuBarFontOfSize_(0)
+            attributes = propertyListFromPythonCollection(
+                {
+                    NSForegroundColorAttributeName: fg_color,
+                    NSBackgroundColorAttributeName: bg_color,
+                    NSFontAttributeName: font
+                },
+                conversionHelper=lambda x: x
+            )
+            string = NSAttributedString.alloc().initWithString_attributes_(' ' + title, attributes)
+            self._nsapp.nsstatusitem.setAttributedTitle_(string)
+
+    def calibrated_color(self, red, green, blue, alpha=1):
+        return NSColor.colorWithCalibratedRed_green_blue_alpha_(red / 255, green / 255, blue / 255, alpha)
+
+    def setup_initial_timers(self):
+        for title, value in INTERVAL_MENU.items():
+            minutes, message = value
+            self.timers[title] = (dt.datetime.now(), minutes, message)
 
     def _build_interval_submenu(self):
         menu = rumps.MenuItem("Breaks")
@@ -78,13 +107,9 @@ class MultiBreaksApp(rumps.App):
                 minutes, message = sender.value
                 sender.state = not sender.state
                 if sender.state:
-                    logging.info(
-                        f"[{sender.title}] - Start Timer for {minutes} minutes"
-                    )
                     timer_start = dt.datetime.now()
                     self.timers[sender.title] = (timer_start, minutes, message)
                 else:
-                    logging.info(f"[{sender.title}] - Stop Timer for {minutes} minutes")
                     del self.timers[sender.title]
 
             mi = rumps.MenuItem(title, callback=cb)
