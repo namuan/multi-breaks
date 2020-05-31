@@ -1,7 +1,7 @@
 Multi-Breaks
 =============
 
-[![MacOS Release](https://img.shields.io/github/v/release/namuan/multi-breaks-osx?label=macos)](https://github.com/namuan/multi-breaks/releases/latest) [![GitHub license](https://img.shields.io/github/license/namuan/multi-breaks.svg)](https://github.com/namuan/multi-breaks/blob/master/LICENSE) [![Twitter Follow](https://img.shields.io/twitter/follow/deskriders_twt.svg?style=social&label=Follow)](https://twitter.com/deskriders_twt)
+[![MacOS Release](https://img.shields.io/github/v/release/namuan/multi-breaks-osx?label=macos)](https://github.com/namuan/multi-breaks-osx/releases/latest) [![GitHub license](https://img.shields.io/github/license/namuan/multi-breaks.svg)](https://github.com/namuan/multi-breaks/blob/master/LICENSE) [![Twitter Follow](https://img.shields.io/twitter/follow/deskriders_twt.svg?style=social&label=Follow)](https://twitter.com/deskriders_twt)
 
 A Simple MacOS Application to set-up multiple reminders to improve your health.
 
