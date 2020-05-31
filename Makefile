@@ -33,7 +33,7 @@ run: ## Runs the application
 	./venv/bin/python3 multi-breaks.py
 
 .PHONY: help
-.DEFAULT_GOAL := setup
+.DEFAULT_GOAL := help
 
 help: Makefile
 	echo

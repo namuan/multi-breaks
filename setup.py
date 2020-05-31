@@ -17,7 +17,7 @@ OPTIONS = {
         'LSUIElement': True,
     },
     'packages': ['rumps'],
-    'iconfile': 'app.icns',
+    'iconfile': 'resources/icons/app.icns',
 }
 
 setup(
