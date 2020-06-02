@@ -73,6 +73,7 @@ class MultiBreaksApp(rumps.App):
                     timer_message,
                 )
                 self.set_title(timer_message)
+                rumps.notification("Just another alert!", None, timer_message)
             else:
                 self.title = ""
 
